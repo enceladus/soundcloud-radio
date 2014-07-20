@@ -9,10 +9,12 @@ describe('RadioCtrl', function () {
     scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(module('mockedApp'));
+  beforeEach(inject(function ($controller, $rootScope, SoundCloud) {
     scope = $rootScope.$new();
     RadioCtrl = $controller('RadioCtrl', {
-      $scope: scope
+      $scope: scope,
+      SoundCloud: SoundCloud
     });
   }));
 

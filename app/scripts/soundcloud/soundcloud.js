@@ -4,27 +4,46 @@
 
 // Provider for the SoundCloud API
 angular.module('scradioApp').provider('SoundCloud', function() {
-  this.clientId = '';
+  var sc = function(endpoint, params) {
+    var clientId = 'SeES8KzD8c44J9IU8djbVg',
+        api = 'http://api.soundcloud.com/',
+        paramArray = [];
+    
+    for (var p in params) {
+      if (params.hasOwnProperty(p)) {
+        paramArray.push(encodeURIComponent(p) + '=' + encodeURIComponent(params[p]));
+      }
+    }
 
-  this.init = function(clientId) {
-    SC.initialize({
-      clientId: clientId
-    });
+    return api + endpoint + '.json' + (params ? '?' : '') + paramArray.join('&') + (params ? '&' : '?') + 'client_id=' + clientId;
   };
 
-  this.$get = function($q) {
+  
+
+  this.$get = function($q, $http) {
 
     return {
       urlType: function(url) {
         // return type of resource of a given URL
         
         // for now, we're just dealing with users. Change this later to use the API's /resolve
-        return 'user';
+        return url;
+      },
+      resolveURL: function(url) {
+        var deferred = $q.defer();
+
+        $http.get(sc('resolve', { url: url })).success(function(response) {
+          deferred.resolve(response);
+        }).error(function(err) {
+          deferred.reject(err);
+        });
+
+        return deferred.promise;
       },
       getUser: function(id) {
         // returns user object with a given id
         
-        var user = $q.defer(); 
+        /*var user = $q.defer(); 
         
         
         SC.get('/users/' + id, function (userData, err) {
@@ -33,38 +52,61 @@ angular.module('scradioApp').provider('SoundCloud', function() {
           } else {
             user.resolve(userData);
           }
-        });
+        });*/
 
-        return user.promise;
+        //return user.promise;
+        return SC.get('/users/' + id, function(user) {
+          return user;
+        });
       },
       getUserFromUrl: function(url) {
         // returns user object from URL
+        return url;
       },
       getTracksByUser: function(id) {
         var tracks = $q.defer();
 
-        SC.get('/users/' + id + '/tracks', function (tracks, err) {
-          return tracks;
+        $http.get(sc('/users/' + id + '/tracks')).success(function (response) {
+          tracks.resolve(response);
+        }).error(function (err) {
+          tracks.reject(err);
         });
+
+        return tracks.promise;
       },
       getUserFavorites: function(id) {
-        SC.get('/users/' + id + '/favorites', function (tracks) {
-          return tracks;
+        var tracks = $q.defer();
+
+        $http.get(sc('/users/' + id + '/favorites')).success(function (response) {
+          tracks.resolve(response);
+        }).error(function (err) {
+          tracks.reject(err);
         });
+
+        return tracks.promise;
       },
       getUserFollowings: function(id) {
-        SC.get('/users/' + id + '/followings', function (users) {
-          return users;
+        var tracks = $q.defer();
+
+        $http.get(sc('/users/' + id + '/followings')).success(function (response) {
+          tracks.resolve(response);
+        }).error(function (err) {
+          tracks.reject(err);
         });
+
+        return tracks.promise;
       },
       getUserId: function(username) {
         // gets user ID from username
+        return username;
       },
       getTrackFromUrl: function(url) {
         // returns track object from URL
+        return url;
       },
       getTrack: function(id) {
         // returns track from track ID
+        return id;
       }
     };
   };
