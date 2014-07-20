@@ -1,0 +1,20 @@
+<div class="radio" ng-show="player.tracks">
+  <div class="playlist">
+    <ol>
+      <li ng-repeat="track in tracks" ng-class="{ current: player.playing === track }">
+        <a href="{{ track.permalink_url }}" target="_blank">
+          <strong class="title">{{ track.title }}</strong><br>
+          <span class="artist">by {{ track.user.username }}</span><br>
+          <span ng-show="player.playing === track">PLAYING</span>
+        </a>
+      </li>
+    </ol>
+  </div>
+
+  <div class="controls">
+    <button ng-click="player.previous()" ng-disable="player.i === 0">Previous</button>
+    <button ng-click="player.play()" ng-show="player.paused">Play</button>
+    <button ng-click="player.pause()" ng-show="player.playing">Pause</button>
+    <button ng-click="player.next()">Next</button>
+  </div>
+</div>

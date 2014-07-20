@@ -1,32 +1,34 @@
+<player track="currentTrack" tracks="tracks"></player>
+
 <input ng-model="newSeedURL" type="text">
 <button ng-click="addSeed(newSeedURL)">Add Seed</button>
 <br><br>
 <p><button ng-click="loadNewTracks()">Load New Tracks</button></p>
-
-<p ng-show="currentTrack.length"><strong>CURRENTLY PLAYING: </strong> {{ currentTrack.title }} by {{ currentTrack.user.username }}</p>
+<p><button ng-click="getNewLeads()">Get New Leads</button></p>
+<p><button ng-click="getNextTrack()">NEXT</button></p>
 
 <h3>Unplayed Tracks</h3>
-<ul>
+<ol>
   <li ng-repeat="track in unplayed"><a href="{{ track.permalink_url }}" target="_blank">{{ track.title }} by {{ track.user.username }}</a></li>
-</ul>
+</ol>
 
 <h3>Played Tracks</h3>
-<ul>
+<ol>
   <li ng-repeat="track in played"><a href="{{ track.permalink_url }}" target="_blank">{{ track.title }} by {{ track.user.username }}</a></li>
-</ul>
+</ol>
 
 <h3>Seeds</h3>
-<ul>
+<ol>
   <li ng-repeat="seed in seeds"><a href="{{ seed.permalink_url }}" target="_blank">{{ seed.username }}</a></li>
-</ul>
+</ol>
 
 <h3>Original seeds</h3>
-<ul>
+<ol>
   <li ng-repeat="seed in originalSeeds"><a href="{{ seed.permalink_url }}" target="_blank">{{ seed.username }}</a></li>
-</ul>
+</ol>
 
 <h3>Used ('loaded') seeds</h3>
-<ul>
+<ol>
   <li ng-repeat="seed in loadedSeeds"><a href="{{ seed.permalink_url }}" target="_blank">{{ seed.username }}</a></li>
-</ul>
+</ol>
 
