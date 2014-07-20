@@ -50,7 +50,7 @@ angular.module('scradioApp').provider('SoundCloud', function() {
       getUserFavorites: function(id) {
         SC.get('/users/' + id + '/favorites', function (tracks) {
           return tracks;
-        })
+        });
       },
       getUserFollowings: function(id) {
         SC.get('/users/' + id + '/followings', function (users) {
