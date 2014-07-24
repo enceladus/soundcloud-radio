@@ -296,7 +296,26 @@ angular.module('scradioApp')
     $scope.i = index;
   };
 
+  $scope.whichCard = function(index) {
+    if (index === $scope.i - 1) {
+      return 'left';
+    } else if (index === $scope.i + 1) {
+      return 'right';
+    } else if (index === $scope.i) {
+      return 'center';
+    } else {
+      return 'invisible'
+    }
+  };
+
   $scope.$watch('i', function() {
     $scope.currentTrack = $scope.playlist[$scope.i];
   });
+
+  // test stuff
+  $scope.addSeed('http://soundcloud.com/snakehips-1');
+  $scope.addSeed('http://soundcloud.com/cherokee-official');
+  //$scope.next();
+  //$scope.next();
+  //$scope.playing = false;
 });

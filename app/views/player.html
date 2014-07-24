@@ -1,4 +1,2 @@
-<div class="track">
-  <progress class="track-progress" width="100%" value="{{ currentTime }}" max="{{ duration }}" ng-click="seekTo($event)"></progress>
-  <span class="progress-time">{{ currentTime | playTime }} / {{ duration | playTime }}</span>
-</div>
+<progress class="track-progress" width="100%" value="{{ currentTime }}" max="{{ duration }}" ng-click="seekTo($event)"></progress>
+<span class="progress-time">{{ currentTime | playTime }} / {{ duration | playTime }}</span>

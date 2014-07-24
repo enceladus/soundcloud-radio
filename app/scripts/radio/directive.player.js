@@ -21,6 +21,7 @@ angular.module('scradioApp').directive('player', function ($document, SoundCloud
       scope.$watch('track', function(newTrack) {
         if (newTrack) {
           audio.src = newTrack.stream_url + '?client_id=' + sc.getClientId();
+          audio.volume = 0;
           audio.play();
         }
       });
