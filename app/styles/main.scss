@@ -51,7 +51,7 @@ h1.logo {
 }
 
 .header {
-  background-color: $dark;
+  background-color: darken($dark, 5%);
   color: white;
   padding-top: 1em;
 
@@ -170,10 +170,21 @@ h1.logo {
   width: 100%;
   position: fixed;
   bottom: 0;
-  background-color: $dark;
+  background-color: darken($dark, 5%);
+  padding-bottom: 1.5em;
 
   .progress-time {
     text-align: center;
+  }
+
+  .progress-area {
+    position: absolute;
+    top: -15px;
+    width: 100%;
+  }
+
+  .progress-area:hover .track-progress {
+    height: 10px;
   }
 
   .track-progress {
@@ -207,7 +218,18 @@ h1.logo {
 }
 
 .controls-main {
-  padding: 1em;
+  padding-top: 2em;
+
+  .ctrl-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: white;
+
+    &[disabled] {
+      opacity: 0.5;
+    }
+  }
 }
 
 /* Responsive: Portrait tablets and up */

@@ -36,14 +36,14 @@
   </section>
 
   <section class="controls row" ng-show="originalSeeds.length">
-  <player track="playlist[i]" playing="playing" finished="next()"></player> 
+  <player class="progress-area" track="playlist[i]" playing="playing" finished="next()"></player> 
 
     <div class="col-md-6 col-md-offset-3 text-center controls-main">
       <div class="btn-row">
-        <button class="ctrl-btn btn-prev" ng-click="previous()" ng-disabled="i === 0">&lt;&lt;</button>
-        <button class="ctrl-btn btn-pause-play" ng-click="playing = true" ng-hide="playing">PLAY</button>
-        <button class="ctrl-btn btn-pause-play" ng-click="playing = false" ng-hide="!playing">PAUSE</button>
-        <button class="ctrl-btn btn-next" ng-click="next()">&gt;&gt;</button>
+        <button class="ctrl-btn btn-prev" ng-click="previous()" ng-disabled="i === 0"><i class="fa fa-backward"></i></button>
+        <button class="ctrl-btn btn-pause-play" ng-click="playing = true" ng-hide="playing"><i class="fa fa-play"></i></button>
+        <button class="ctrl-btn btn-pause-play" ng-click="playing = false" ng-hide="!playing"><i class="fa fa-pause"></i></button>
+        <button class="ctrl-btn btn-next" ng-click="next()"><i class="fa fa-forward"></i></button>
       </div>
     </div>
   </section>
