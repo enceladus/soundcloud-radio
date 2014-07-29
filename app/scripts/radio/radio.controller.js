@@ -13,6 +13,7 @@ angular.module('scradioApp')
     $scope.seeds = []; // array of user objects
     $scope.loadedSeeds = [];
     $scope.originalSeeds = [];
+    $scope.moreSeeds = '';
     $scope.unplayed = []; // possible tracks to play
     $scope.played = []; // list of tracks already played, or skipped
     $scope.currentTrack = {};
@@ -21,6 +22,7 @@ angular.module('scradioApp')
     $scope.playlist = [];
     $scope.i = 0;
     $scope.showSeedForm = false;
+    $scope.newSeedURL = 'http://soundcloud.com/';
   };
 
   $scope.clear();
@@ -70,7 +72,7 @@ angular.module('scradioApp')
         $scope.getNewTrack();
       }
 
-      $scope.newSeedURL  = '';
+      $scope.newSeedURL  = 'http://soundcloud.com/';
       $scope.showSeedForm = false;
     }, function() {
       console.log('please enter a correct soundcloud user or track url');
@@ -278,8 +280,9 @@ angular.module('scradioApp')
       $scope.i += 1;
     }
 
-    // if we are now on the penultimate track, load a new one
-    if ($scope.i >= $scope.playlist.length -2) {
+    // if we are now on the antepenultimate track, load two more
+    if ($scope.i >= $scope.playlist.length - 3) {
+      $scope.getNewTrack();
       $scope.getNewTrack();
     }
 
@@ -294,6 +297,11 @@ angular.module('scradioApp')
 
   $scope.skipToTrack = function(index) {
     $scope.i = index;
+
+    if ($scope.i >= $scope.playlist.length - 3) {
+      $scope.getNewTrack();
+      $scope.getNewTrack();
+    }
   };
 
   $scope.whichCard = function(index) {
@@ -304,7 +312,7 @@ angular.module('scradioApp')
     } else if (index === $scope.i) {
       return 'center';
     } else {
-      return 'invisible'
+      return 'invisible';
     }
   };
 
@@ -312,10 +320,13 @@ angular.module('scradioApp')
     $scope.currentTrack = $scope.playlist[$scope.i];
   });
 
-  // test stuff
-  $scope.addSeed('http://soundcloud.com/snakehips-1');
-  $scope.addSeed('http://soundcloud.com/cherokee-official');
-  //$scope.next();
-  //$scope.next();
-  //$scope.playing = false;
+  // testing stuff
+  /*$scope.addSeed('http://soundcloud.com/starfucker');
+  $scope.addSeed('http://soundcloud.com/capyac');
+  $scope.addSeed('http://soundcloud.com/fybeone');
+  $scope.addSeed('http://soundcloud.com/moonboots');
+  $scope.addSeed('http://soundcloud.com/choco');
+  $scope.addSeed('http://soundcloud.com/danko');
+  $scope.addSeed('http://soundcloud.com/chromeo');*/
+
 });

@@ -11,7 +11,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 }
 
 /* MIXINS */
-@mixin transition($time: 0.2s, $what: all, $how: ease-in) {
+@mixin transition($time: 0.2s, $what: all, $how: ease) {
   transition: $what $time $how;
 }
 
@@ -30,6 +30,10 @@ $heading: 'Montserrat', sans-serif;
 
 
 /* GENERAL STYLES */
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: $body;
   background-color: $dark;
@@ -54,13 +58,6 @@ h1.logo {
   background-color: darken($dark, 5%);
   color: white;
   padding-top: 1em;
-
-  opacity: 0.35;
-  @include transition();
-  &:hover {
-    opacity: 1;
-    @include transition;
-  }
 }
 
 .seed-title {
@@ -90,27 +87,96 @@ h1.logo {
   color: lighten($dark, 15%);
   background-color: transparent;
   border: 2px solid lighten($dark, 15%);
+  //transform: rotate(0deg);
+  transition: all 0.3s ease-out;
 
-  &:hover {
+  .x {
+    transform: rotate(0deg);
+    //@include transition();
+  }
+
+  &.open .x {
+    transform: rotate(45deg);
+    //@include transition();
+  }
+
+  &:hover, &.open, &:focus, &:active {
     color: white;
     background-color: transparent;
     border-color: white;
+    outline: none;
+  }
+}
+
+.seedlist .seedform { 
+  margin-right: -350px;
+  @include transition(0.2s);
+
+  &.on {
+    margin-right: 0;
+    @include transition(0.2s);
+  }
+
+  input {
+    background-color: darken($dark, 15%);
+    border: none;
+    padding: 0.4em;
+    font-family: $body;
+    border-radius: 5px;
+    border: 1px solid darken($dark, 15%);
+    width: 220px;
+
+    &:focus {
+      outline: none;
+      border: 1px solid desaturate(darken($hl2, 40%), 5%);
+    }
+  }
+
+  .btn.btn-primary {
+    background-color: darken($dark, 15%);
+    border: 1px solid transparent;
+    border: none;
+
+    &:hover {
+      border: none;
+      background-color: darken($dark, 10%);
+      border: 1px solid desaturate(darken($hl2, 40%), 5%);
+    }
   }
 }
 
 /* PLAYER */
+.playlist-container {
+  width: 200%;
+  @include transition(0.5s);
+}
+
+.track {
+  width: 33.33333333333333%;
+  float: left;
+
+  &.animate-hide {
+    @include transition();
+
+    &.ng-hide {
+      opacity: 0;
+      @include transition();
+    }
+  }
+}
+
 .track-inner {
-  padding: 1.5em;
-  border-radius: 5px;
-  //@include transition(0.6s);
+  @include transition(1s);
+  transform: perspective(800px) translate3d(0, 0, -1000px);
 
   img {
     border-radius: 5px;
-    -webkit-filter: saturate(6%) blur(5px);
+    -webkit-filter: saturate(6%) blur(6px);
     @include transition();
 
     &:hover {
       -webkit-filter: saturate(100%) blur(0);
+      cursor: pointer;
       @include transition();
     }
   }
@@ -127,6 +193,8 @@ h1.logo {
   &.current {
     //background-color: lighten($dark, 10%);
     //@include transition(0.6s);
+    transform: perspective(800px) rotateY(0deg) translate3d(0, 0, 0);
+    @include transition(0.3s);
 
     img {
       -webkit-filter: saturate(100%) blur(0);
@@ -138,11 +206,23 @@ h1.logo {
   }
 
   &.left {
-    transform: perspective( 800px ) rotateY( -45deg ) scale(0.8);
+    transform: perspective(800px) translate3d(0, 0, -200px) rotateY(-45deg);
+    @include transition(0.3s);
   }
 
   &.right {
-    transform: perspective( 800px ) rotateY( 45deg ) scale(0.8);
+    transform: perspective(800px) translate3d(0, 0, -200px) rotateY(45deg);
+    @include transition(0.3s);
+  }
+
+  &.offleft {
+    transform: perspective(800px) translate3d(0, 0, -500px) rotateY(-90deg);
+    @include transition(0.3s);
+  }
+
+  &.offright {
+    transform: perspective(800px) translate3d(0, 0, -500px) rotateY(90deg);
+    @include transition(0.3s);
   }
 
   .track-info {

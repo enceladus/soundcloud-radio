@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <header class="header row">
-    <div class="col-xs-6">
+    <div class="col-xs-3">
       <h1 class="logo">Robot Radio</h1>
     </div>
-    <div class="col-xs-6 text-right">
+    <div class="col-xs-9 text-right">
       <ol class="list-inline seedlist">
         <li class="seed-title">Seeds:</li>
         <li ng-repeat="seed in originalSeeds">
@@ -12,8 +12,12 @@
           </a>
         </li>
         <li>
-          <button class="btn btn-add-seed" ng-click="showSeedForm = !showSeedForm">+</button>
-          <form ng-hide="!showSeedForm" class="form form-inline" ng-submit="addSeed(newSeedURL)">
+          <button class="btn btn-add-seed" ng-class="{ open: showSeedForm }" ng-click="showSeedForm = !showSeedForm">
+            <span class="x">+</span>
+          </button>
+        </li>
+        <li>
+          <form ng-class="{ on: showSeedForm }" class="seedform form form-inline" ng-submit="addSeed(newSeedURL)">
             <input type="text" ng-model="newSeedURL" type="text">
             <button type="submit" class="btn btn-primary">Add</button>
           </form>
@@ -21,13 +25,17 @@
       </ol>
     </div>
   </header>
-  <section class="playlist-container row" ng-show="originalSeeds.length">
-    <div class="track col-sm-4 animate-hide" ng-repeat="track in playlist" ng-hide="$index < i - 1 || $index > i + 1">
-      <div class="track-inner" ng-class="{ current: $index === i, left: $index === i - 1, right: $index === i + 1 }">
-        <a href ng-click="skipToTrack($index)">
-          <img src="{{ getArtwork(track) }}" width="100%">
-        </a>
-        <div class="track-info">
+  <section class="playlist-container row" ng-show="originalSeeds.length" ng-style="{ 'width': playlist.length * 100 / 3 + 'vw', 'margin-left': -i * 100 / 3 + (100 / 3) + 'vw' }">
+    <!-- show empty placeholder if playlist is two tracks, to center the first track -->
+    <div class="track animate-hide" ng-repeat="track in playlist" ng-hide="false" ng-style="{ 'width': 100 / 3 + 'vw' }">
+      <div class="track-inner" ng-class="{ 
+                                current: $index === i, 
+                                left: $index === i - 1, 
+                                right: $index === i + 1, 
+                                offright: $index > i+1,
+                                offleft: $index < i-1 }">
+        <img src="{{ getArtwork(track) }}" width="100%" ng-click="skipToTrack($index)">
+        <div class="track-info" ng-show="$index === i">
           <p class="title"><a href="{{ track.permalink_url }}" target="_blank"><strong>{{ track.title }}</strong></a></p>
           <p class="artist"><a href="{{ track.user.permalink_url }}" target="_blank">by {{ track.user.username }}</a></p>
         </div>
@@ -36,7 +44,7 @@
   </section>
 
   <section class="controls row" ng-show="originalSeeds.length">
-  <player class="progress-area" track="playlist[i]" playing="playing" finished="next()"></player> 
+  <player class="progress-area" current-track="playlist[i]" playing="playing" finished="next()"></player> 
 
     <div class="col-md-6 col-md-offset-3 text-center controls-main">
       <div class="btn-row">
