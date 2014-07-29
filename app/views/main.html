@@ -25,16 +25,16 @@
       </ol>
     </div>
   </header>
-  <section class="playlist-container row" ng-show="originalSeeds.length" ng-style="{ 'width': playlist.length * 100 / 3 + 'vw', 'margin-left': -i * 100 / 3 + (100 / 3) + 'vw' }">
+  <section class="playlist-container row" ng-show="originalSeeds.length">
     <!-- show empty placeholder if playlist is two tracks, to center the first track -->
-    <div class="track animate-hide" ng-repeat="track in playlist" ng-hide="false" ng-style="{ 'width': 100 / 3 + 'vw' }">
+    <div class="track animate-hide" ng-repeat="track in playlist" ng-hide="false">
       <div class="track-inner" ng-class="{ 
                                 current: $index === i, 
                                 left: $index === i - 1, 
                                 right: $index === i + 1, 
                                 offright: $index > i+1,
                                 offleft: $index < i-1 }">
-        <img src="{{ getArtwork(track) }}" width="100%" ng-click="skipToTrack($index)">
+        <img src="{{ getArtwork(track) }}" width="100%">
         <div class="track-info" ng-show="$index === i">
           <p class="title"><a href="{{ track.permalink_url }}" target="_blank"><strong>{{ track.title }}</strong></a></p>
           <p class="artist"><a href="{{ track.user.permalink_url }}" target="_blank">by {{ track.user.username }}</a></p>

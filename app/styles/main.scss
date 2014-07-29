@@ -147,13 +147,14 @@ h1.logo {
 
 /* PLAYER */
 .playlist-container {
-  width: 200%;
+  width: 100vw;
   @include transition(0.5s);
 }
 
 .track {
-  width: 33.33333333333333%;
+  width: 33.333333%;
   float: left;
+  position: absolute;
 
   &.animate-hide {
     @include transition();
@@ -167,7 +168,8 @@ h1.logo {
 
 .track-inner {
   @include transition(1s);
-  transform: perspective(800px) translate3d(0, 0, -1000px);
+  transform: perspective(100vw) translate3d(0, 0, 0);
+  opacity: 0;
 
   img {
     border-radius: 5px;
@@ -193,7 +195,7 @@ h1.logo {
   &.current {
     //background-color: lighten($dark, 10%);
     //@include transition(0.6s);
-    transform: perspective(800px) rotateY(0deg) translate3d(0, 0, 0);
+    transform: perspective(100vw) rotateY(0deg) translate3d(33.333333vw, 0, 0);
     @include transition(0.3s);
 
     img {
@@ -201,27 +203,28 @@ h1.logo {
     }
   }
 
-  &.right, &.left {
+  &.right, &.left, &.current {
     //transform-style: preserve-3d;
+    opacity: 1.0;
   }
 
   &.left {
-    transform: perspective(800px) translate3d(0, 0, -200px) rotateY(-45deg);
+    transform: perspective(100vw) translate3d(0, 0, -20vw) rotateY(-45deg);
     @include transition(0.3s);
   }
 
   &.right {
-    transform: perspective(800px) translate3d(0, 0, -200px) rotateY(45deg);
+    transform: perspective(100vw) translate3d(80vw, 0, -20vw) rotateY(15deg);
     @include transition(0.3s);
   }
 
   &.offleft {
-    transform: perspective(800px) translate3d(0, 0, -500px) rotateY(-90deg);
+    transform: perspective(100vw) translate3d(0vw, 0, -20vw) rotateY(-90deg);
     @include transition(0.3s);
   }
 
   &.offright {
-    transform: perspective(800px) translate3d(0, 0, -500px) rotateY(90deg);
+    transform: perspective(100vw) translate3d(80vw, 0, -20vw) rotateY(90deg);
     @include transition(0.3s);
   }
 
