@@ -45,8 +45,10 @@
 
   <section class="controls row" ng-show="originalSeeds.length">
   <player class="progress-area" current-track="playlist[i]" playing="playing" finished="next()"></player> 
-
-    <div class="col-md-6 col-md-offset-3 text-center controls-main">
+    <div class="col-md-2 col-md-offset-1 text-center download-link">
+      <a href="{{ playlist[i].permalink_url }}/download" class="btn btn-link" ng-show="playlist[i].downloadable">Download Track</a>
+    </div>
+    <div class="col-md-6 text-center controls-main">
       <div class="btn-row">
         <button class="ctrl-btn btn-prev" ng-click="previous()" ng-disabled="i === 0"><i class="fa fa-backward"></i></button>
         <button class="ctrl-btn btn-pause-play" ng-click="playing = true" ng-hide="playing"><i class="fa fa-play"></i></button>
