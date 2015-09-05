@@ -1,7 +1,20 @@
 {
   "name": "scradio",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.13.3",
+    "config": "^1.16.0",
+    "connect-flash": "^0.1.1",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
+    "http": "0.0.0",
+    "mysql": "^2.9.0",
+    "passport": "0.2.2",
+    "passport-soundcloud": "^0.1.2",
+    "soundcloud-node": "0.0.10",
+    "util": "^0.10.3"
+  },
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",

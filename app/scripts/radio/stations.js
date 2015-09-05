@@ -69,7 +69,6 @@ angular.module('scradioApp').factory('Stations', function() {
       }
     }
   };
-
   self.removeStation = function(index) {
     self.stations.splice(index, 1);
     return self.stations;

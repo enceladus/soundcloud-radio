@@ -1,0 +1,12 @@
+You should create a config file in this directory called default.json.
+It should look like this:
+
+{
+  "Debug": {
+    "port": yourdebugportpreference
+  },
+  "SoundCloud": {
+    "clientId": "yourclientid",
+    "clientSecret":  "yourclientsecret"
+  }
+}

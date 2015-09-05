@@ -14,16 +14,24 @@ angular
     'ngCookies',
     'ngResource',
     'ngRoute',
+    'ui.router',
     'ngSanitize',
     'ngTouch',
   ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'RadioCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
+  .config([ '$routeProvider', '$locationProvider', '$stateProvider',
+function ($routeProvider, $locationProvider, $stateProvider) {
+  $locationProvider.html5Mode({
+        enabled: true
+    });
+      $stateProvider
+        .state('default', {
+            url: "/",
+            views: {
+                "master": {
+                    templateUrl: '/views/main.html',
+                    controller: 'RadioCtrl',
+                    controllerAs: 'RadioCtrl'
+                }
+            }
+        });
+}]);

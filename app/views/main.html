@@ -25,13 +25,27 @@
       </ol>
     </div>
   </header>
+  <form action="/auth/soundcloud" method="post" class="row">
+      <div class="col-md-4">
+          <input type="submit" value="SoundCloud Login"/>
+      </div>
+  </form>
+  <section class="row">
+    <div class="col-md-4">
+      <span>Logged in user: {{loggedInUser.username}}</span>
+    </div>
+    <form class="col-md-4" ng-submit="addSeed(loggedInUser.permalink_url)">
+      <span>Add your profile radio</span>
+      <input type="submit" value="Add"/>
+    </form>
+  </section>
   <section class="playlist-container row" ng-show="originalSeeds.length">
     <!-- show empty placeholder if playlist is two tracks, to center the first track -->
     <div class="track animate-hide" ng-repeat="track in playlist" ng-hide="false">
-      <div class="track-inner" ng-class="{ 
-                                current: $index === i, 
-                                left: $index === i - 1, 
-                                right: $index === i + 1, 
+      <div class="track-inner" ng-class="{
+                                current: $index === i,
+                                left: $index === i - 1,
+                                right: $index === i + 1,
                                 offright: $index > i+1,
                                 offleft: $index < i-1 }">
         <img src="{{ getArtwork(track) }}" width="100%">
@@ -44,14 +58,20 @@
   </section>
 
   <section class="controls row" ng-show="originalSeeds.length">
-  <player class="progress-area" current-track="playlist[i]" playing="playing" finished="next()"></player> 
-
-    <div class="col-md-6 col-md-offset-3 text-center controls-main">
+  <player class="progress-area" current-track="playlist[i]" playing="playing" finished="next()"></player>
+    <div class="col-md-2 col-md-offset-1 text-center download-link">
+      <a href="{{ playlist[i].permalink_url }}/download" class="btn btn-link" ng-show="playlist[i].downloadable">Download Track</a>
+    </div>
+    <div class="col-md-6 text-center controls-main">
       <div class="btn-row">
         <button class="ctrl-btn btn-prev" ng-click="previous()" ng-disabled="i === 0"><i class="fa fa-backward"></i></button>
         <button class="ctrl-btn btn-pause-play" ng-click="playing = true" ng-hide="playing"><i class="fa fa-play"></i></button>
         <button class="ctrl-btn btn-pause-play" ng-click="playing = false" ng-hide="!playing"><i class="fa fa-pause"></i></button>
         <button class="ctrl-btn btn-next" ng-click="next()"><i class="fa fa-forward"></i></button>
+        <button class="ctrl-btn" ng-click="likeCurrentTrack(handleLikeRes)">
+          <span class="glyphicon glyphicon-heart" aria-hidden="true">Like</span>
+        </button>
+
       </div>
     </div>
   </section>
@@ -97,4 +117,3 @@
     <li ng-repeat="seed in loadedSeeds"><a href="{{ seed.permalink_url }}" target="_blank">{{ seed.username }}</a></li>
   </ol>
   </div>
-
