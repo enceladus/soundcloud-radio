@@ -56,7 +56,7 @@
   },
   "scripts": {
     "test": "grunt test",
-    "postinstall": "grunt build && bower install",
+    "postinstall": "bower install",
     "start": "node server.js"
   }
 }
