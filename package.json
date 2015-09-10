@@ -9,6 +9,7 @@
     "connect-flash": "^0.1.1",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
+    "grunt": "^0.4.5",
     "http": "0.0.0",
     "mysql": "^2.9.0",
     "passport": "0.2.2",
@@ -51,6 +52,6 @@
   },
   "scripts": {
     "test": "grunt test",
-    "postinstall": "bower install"
+    "postinstall": "bower install && grunt build"
   }
 }
