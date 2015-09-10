@@ -54,7 +54,7 @@
   },
   "scripts": {
     "test": "grunt test",
-    "postinstall": "grunt uglify && bower install",
+    "postinstall": "bower install",
     "start": "node server.js"
   }
 }
