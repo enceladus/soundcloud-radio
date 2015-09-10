@@ -27,8 +27,9 @@ app.all('*', function(req, res, next) {
   next();
 });
 
-app.get('/[a-zA-Z]+/', function(req, res) {
-  res.sendFile(process.env.PWD + '/public/index.html');
+app.get('/', function(req, res) {
+  console.log("getting a page");
+  res.sendFile(process.env.PWD + '/app/index.html');
 });
 
 passport.use(new SoundCloudStrategy({
