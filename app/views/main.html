@@ -41,8 +41,9 @@
   </section>
   <section class="playlist-container row" ng-show="originalSeeds.length">
     <!-- show empty placeholder if playlist is two tracks, to center the first track -->
-    <div class="track animate-hide" ng-repeat="track in playlist" ng-hide="false">
-      <div class="track-inner" ng-class="{
+    <div class="track animate-hide" ng-repeat="track in playlist" ng-hide="false" style="margin:0 auto">
+      {{trackViewer.AddTrack({ img: getArtwork(track),id:track.id })}}
+      <!-- <div class="track-inner" ng-class="{
                                 current: $index === i,
                                 left: $index === i - 1,
                                 right: $index === i + 1,
@@ -53,7 +54,7 @@
           <p class="title"><a href="{{ track.permalink_url }}" target="_blank"><strong>{{ track.title }}</strong></a></p>
           <p class="artist"><a href="{{ track.user.permalink_url }}" target="_blank">by {{ track.user.username }}</a></p>
         </div>
-      </div>
+      </div> -->
     </div>
   </section>
 

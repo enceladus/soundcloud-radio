@@ -8,6 +8,7 @@ angular.module('scradioApp')
 
     var sc = SoundCloud;
     $scope.stations = Stations;
+    $scope.trackViewer = new TrackViewer({canvasHolder:".playlist-container"});
 
     $scope.clear = function () {
         $scope.seeds = []; // array of user objects
@@ -282,7 +283,6 @@ angular.module('scradioApp')
     };
 
     $scope.next = function () {
-        console.log($scope.playlist[$scope.playlist.length - 1]);
         if ($scope.i < $scope.playlist.length - 1) {
             $scope.i += 1;
         }
@@ -294,6 +294,7 @@ angular.module('scradioApp')
         }
 
         $scope.playing = true;
+        $scope.trackViewer.CenterTrack($scope.playlist[$scope.i].id);
     };
 
     $scope.previous = function () {
@@ -342,6 +343,7 @@ angular.module('scradioApp')
             return 'invisible';
         }
     };
+
 
     $scope.$watch('i', function () {
         $scope.currentTrack = $scope.playlist[$scope.i];
