@@ -18,7 +18,9 @@ config = require("config");
 
 var port = process.env.PORT || parseInt(config.get("Debug.port")), // the process.env.PORT variable is for the demo on heroku
   env = process.env.NODE_ENV || 'development',
-  callback = "http://localhost:" + port + "/auth/soundcloud/callback"; // process.env.NODE_ENV determines whether this is the heroku app
+  callback = env == 'development' ?
+    "http://localhost:" + port + "/auth/soundcloud/callback":
+    "http://robotradio.herokuapp.com/auth/soundcloud/callback"; // process.env.NODE_ENV determines whether this is the heroku app
 
 //Files in the public folder are served staticly
 app.all('*', function(req, res, next) {
