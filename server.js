@@ -1,47 +1,72 @@
-/**
- *
- */
+//////////////////////////////
+//  SoundCloud Radio Web App Server
+///////////////////////////////
 
-process.env.PWD = process.cwd();
-var express = require("express"),
-  app = express(),
+//#region Imports 
+var bodyParser = require("body-parser"),
   cors = require("cors"),
-  passport = require("passport"),
-  SoundCloudStrategy = require("passport-soundcloud").Strategy,
-  util = require('util'),
-  bodyParser = require("body-parser"),
+  config = require("config"),
+  express = require("express"),
   flash = require('connect-flash'),
   http = require('http'),
+  passport = require("passport"),
   session = require("express-session"),
-  User = require('./User'),
   SoundCloudAPI = require("soundcloud-node"),
-  config = require("config");
+  SoundCloudStrategy = require("passport-soundcloud").Strategy,
+  User = require('./User'),
+  util = require('util');
+//#endregion
 
-var port = process.env.PORT || parseInt(config.get("Debug.port")), // the process.env.PORT variable is for the demo on heroku
+//#region Host Config 
+process.env.PWD = process.cwd();
+
+var port =
+  // the process.env.PORT variable is for the demo on heroku
+  process.env.PORT || parseInt(config.get("Debug.port")),
+  // determines whether we are on heroku or local
   env = process.env.NODE_ENV || 'development',
-  callback = 
-    "http://robotradio.herokuapp.com/auth/soundcloud/callback"; // process.env.NODE_ENV determines whether this is the heroku app
+  // sets the callback for SoundCloud. Uses the variable in config/default.json
+  callback = util.format("%s/auth/soundcloud/callback",
+    config.get("SoundCloud.callbackHost"));
 
-app.use(cors());
-//Files in the public folder are served staticly
+var app = express();
+
+// Files in the app folder are served staticly
 app.all('*', function(req, res, next) {
+  // makes things in the app folder requested from '/'
   app.use(express.static(process.env.PWD + '/app'));
+  // makes bower components requested from '/bower_components'
   app.use('/bower_components', express.static(process.env.PWD + '/bower_components'));
-  allowCrossDomain(req,res,next);
   next();
 });
-// configure app
-// for allowing cross domain access from tumblr. May be unneccesary
-var allowCrossDomain = function (req, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
-}
 
-app.get('/', function(req, res) {
-  res.sendFile(process.env.PWD + '/app/index.html');
+var server = app.listen(port, function() {
+  console.log('Listening on port %d', server.address().port);
 });
 
+//#region App Middleware
+// Creates user sessions 
+app.use(session({
+  secret: 'SECRET',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.json({
+  type: 'application/vnd.api+json'
+}));
+app.use(flash());
+app.use(cors());
+app.use(passport.initialize());
+
+//#endregion
+
+//#endregion
+
+//#region Passport Config
 passport.use(new SoundCloudStrategy({
     clientID: config.get("SoundCloud.clientId"),
     clientSecret: config.get("SoundCloud.clientSecret"),
@@ -59,30 +84,18 @@ passport.use(new SoundCloudStrategy({
   }
 ));
 
-
-
-
-// Creates user sessions (not really implemented yet)
-app.use(session({
-  secret: 'SECRET',
-  resave: true,
-  saveUninitialized: true
-}));
-// For auth
-app.use(passport.initialize());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(bodyParser.json());
-app.use(bodyParser.json({
-  type: 'application/vnd.api+json'
-}));
-app.use(flash());
-
-var server = app.listen(port, function() {
-  console.log('Listening on port %d', server.address().port);
+passport.serializeUser(function(user, done) {
+  done(null, user);
 });
 
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+//#endregion
+
+//#region App Routing 
+
+//#region Get Requests 
 app.get('/auth/soundcloud/callback',
   passport.authenticate('soundcloud', {
     failureRedirect: '/login'
@@ -93,11 +106,13 @@ app.get('/auth/soundcloud/callback',
     if (req._passport.session.user != null) {
 
       res.redirect('/');
-    } else {
+    }
+    else {
+      // user hasn't registered
       res.redirect('/login');
     }
   });
-
+//#region SoundCloud API Requests 
 app.get("/auth/soundcloud/loggedinuser", function(req, res) {
   if (req._passport.session.user) {
     var userUrl = util.format("http://api.soundcloud.com/users/%s?client_id=%s",
@@ -114,45 +129,46 @@ app.get("/auth/soundcloud/loggedinuser", function(req, res) {
       console.log("error getting soundcloud user data");
       res.send(null);
     });
-  } else {
+  }
+  else {
     res.send(null);
   }
 });
+//#endregion
+//#endregion
 
-app.post('/auth/soundcloud', passport.authenticate('soundcloud', {
+//#region Post Requests 
+app.post('/auth/soundcloud', passport.authenticate('soundcloud', {}));
 
-}));
-
+//#region SoundCloud API Requests
 app.post('/likeSong/:id', function(req, res) {
   var id = req.params.id;
   var credentials = {
     access_token: req._passport.session.user.client,
-		user_id: req._passport.session.user.id
+    user_id: req._passport.session.user.id
   }
-	console.log("liking song: ",id);
+  console.log("liking song: ", id);
   var client = new SoundCloudAPI(
-		config.get("SoundCloud.clientId"),
-		config.get("SoundCloud.clientSecret"),
-		callback,
-		credentials
-	);
-	console.log(client);
+    config.get("SoundCloud.clientId"),
+    config.get("SoundCloud.clientSecret"),
+    callback,
+    credentials
+  );
+  console.log(client);
   var action = util.format("/me/favorites/%s", id);
   client.put(action, function(data) {
-		console.log(data);
+    console.log(data);
     if (data.err) {
       console.log(err);
       res.send(err);
-    } else {
+    }
+    else {
       res.send(null);
     }
   });
 });
+//#endregion
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
+//#endregion
 
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
+//#endregion

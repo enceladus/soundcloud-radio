@@ -3,6 +3,7 @@
     "port": 1994
   },
   "SoundCloud": {
+    "callbackHost": "http://soundcloud-radio-jmbeach.c9.io",
     "clientId": "de9bbc3e389d0de7f0dfe5af727c8426",
     "clientSecret":  "2ea0e68f2c1dd84410cc40b93ccd166d"
   }
