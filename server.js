@@ -25,11 +25,15 @@ var port =
   process.env.PORT || parseInt(config.get("Debug.port")),
   // determines whether we are on heroku or local
   env = process.env.NODE_ENV || 'development',
+<<<<<<< HEAD
   // sets the callback for SoundCloud. Uses the variable in config/default.json
   callback = util.format("%s/auth/soundcloud/callback",
     config.get("SoundCloud.callbackHost"));
 
 var app = express();
+=======
+  callback = "http://robotradio.herokuapp.com/auth/soundcloud/callback"; // process.env.NODE_ENV determines whether this is the heroku app
+>>>>>>> deploy
 
 // Files in the app folder are served staticly
 app.all('*', function(req, res, next) {
