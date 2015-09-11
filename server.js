@@ -25,8 +25,16 @@ var port = process.env.PORT || parseInt(config.get("Debug.port")), // the proces
 app.all('*', function(req, res, next) {
   app.use(express.static(process.env.PWD + '/app'));
   app.use('/bower_components', express.static(process.env.PWD + '/bower_components'));
+  allowCrossDomain(req,res,next);
   next();
 });
+// configure app
+// for allowing cross domain access from tumblr. May be unneccesary
+var allowCrossDomain = function (req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+}
 
 app.get('/', function(req, res) {
   res.sendFile(process.env.PWD + '/app/index.html');
