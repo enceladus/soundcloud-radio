@@ -5,6 +5,7 @@
 process.env.PWD = process.cwd();
 var express = require("express"),
   app = express(),
+  cors = require("cors"),
   passport = require("passport"),
   SoundCloudStrategy = require("passport-soundcloud").Strategy,
   util = require('util'),
@@ -14,13 +15,14 @@ var express = require("express"),
   session = require("express-session"),
   User = require('./User'),
   SoundCloudAPI = require("soundcloud-node"),
-config = require("config");
+  config = require("config");
 
 var port = process.env.PORT || parseInt(config.get("Debug.port")), // the process.env.PORT variable is for the demo on heroku
   env = process.env.NODE_ENV || 'development',
   callback = 
     "http://robotradio.herokuapp.com/auth/soundcloud/callback"; // process.env.NODE_ENV determines whether this is the heroku app
 
+app.use(cors());
 //Files in the public folder are served staticly
 app.all('*', function(req, res, next) {
   app.use(express.static(process.env.PWD + '/app'));
